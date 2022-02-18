@@ -8,9 +8,11 @@ Por enquanto apresenta os seguintes problemas:
  - Se alguém me ligar e eu quiser desligar ele apreseta um erro de que a função não recebe tipo Null.
 
  Se você já tem um sip funcionando é só registrar e você pode utilizar.
-
+<div>
  <img src="images/shot1.png" width=200 alt="Tela1">
  <img src="images/shot2.png" width=200 alt="Tela2">
+</div>
+
 
 ## Getting Started
 
