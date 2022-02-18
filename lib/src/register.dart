@@ -44,12 +44,12 @@ class _MyRegisterWidget extends State<RegisterWidget>
     _preferences = await SharedPreferences.getInstance();
     this.setState(() {
       _wsUriController.text =
-          _preferences.getString('ws_uri') ?? 'wss://fs.jupiter.com.br:7443';
+          _preferences.getString('ws_uri') ?? 'wss://fs.jupiter.com.br:7443';//
       _sipUriController.text =
-          _preferences.getString('sip_uri') ?? '${900}@fs.jupiter.com.br';
+          _preferences.getString('sip_uri') ?? '${900}@fs.jupiter.com.br';//
       _displayNameController.text =
-          _preferences.getString('display_name') ?? 'Flutter SIP UA';
-      _passwordController.text = _preferences.getString('Jup900');
+          _preferences.getString('display_name') ?? 'Júpiter Beta';//Flutter SIP UA
+      _passwordController.text = _preferences.getString('Jup900');//
       _authorizationUserController.text = _preferences.getString('auth_user');
     });
   }
@@ -118,7 +118,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("SIP Account"),
+          title: Text("Registro de Conta"),
         ),
         body: Align(
             alignment: Alignment(0, 0),
@@ -133,8 +133,8 @@ class _MyRegisterWidget extends State<RegisterWidget>
                             const EdgeInsets.fromLTRB(48.0, 18.0, 48.0, 18.0),
                         child: Center(
                             child: Text(
-                          'Register Status: ${EnumHelper.getName(_registerState.state)}',
-                          style: TextStyle(fontSize: 18, color: Colors.black54),
+                          'Status: ${EnumHelper.getName(_registerState.state)}',
+                          style: TextStyle(fontSize: 25, color: Colors.black54),
                         )),
                       ),
                       Padding(
@@ -188,7 +188,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
                       Padding(
                         padding: const EdgeInsets.fromLTRB(46.0, 18.0, 48.0, 0),
                         child: Align(
-                          child: Text('Authorization User:'),
+                          child: Text('Usuário Autorizado:'),
                           alignment: Alignment.centerLeft,
                         ),
                       ),
@@ -217,7 +217,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
                       Padding(
                         padding: const EdgeInsets.fromLTRB(46.0, 18.0, 48.0, 0),
                         child: Align(
-                          child: Text('Password:'),
+                          child: Text('Senha:'),
                           alignment: Alignment.centerLeft,
                         ),
                       ),
@@ -244,7 +244,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
                       Padding(
                         padding: const EdgeInsets.fromLTRB(46.0, 18.0, 48.0, 0),
                         child: Align(
-                          child: Text('Display Name:'),
+                          child: Text('Nome do Display:'),
                           alignment: Alignment.centerLeft,
                         ),
                       ),
@@ -264,17 +264,17 @@ class _MyRegisterWidget extends State<RegisterWidget>
                     ],
                   ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 18.0, 0.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
                       child: Container(
                         height: 48.0,
-                        width: 160.0,
                         child: MaterialButton(
+                          
                           child: Text(
-                            'Register',
+                            'Conectar',
                             style:
-                                TextStyle(fontSize: 16.0, color: Colors.white),
+                                TextStyle(fontSize: 25.0, color: Colors.white),
                           ),
-                          color: Colors.blue,
+                          color: Colors.orangeAccent,
                           textColor: Colors.white,
                           onPressed: () => _handleSave(context),
                         ),

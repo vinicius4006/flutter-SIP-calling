@@ -30,7 +30,7 @@ class _MyDialPadWidget extends State<DialPadWidget>
 
   void _loadSettings() async {
     _preferences = await SharedPreferences.getInstance();
-    _dest = _preferences.getString('dest') ?? 'sip:gurkaran_504yay@tryit.jssip.net';
+    _dest = _preferences.getString('dest') ?? '';
     _textController = TextEditingController(text: _dest);
     _textController.text = _dest;
 
@@ -143,7 +143,8 @@ class _MyDialPadWidget extends State<DialPadWidget>
                         border: InputBorder.none,
                       ),
                       controller: _textController,
-                    )),
+                    )
+                    ),
               ])),
       Container(
           width: 300,
@@ -164,7 +165,7 @@ class _MyDialPadWidget extends State<DialPadWidget>
                     onPressed: () => _handleCall(context),
                   ),
                   ActionButton(
-                    icon: Icons.dialer_sip,
+                    icon: Icons.call,
                     fillColor: Colors.green,
                     onPressed: () => _handleCall(context, true),
                   ),
@@ -182,11 +183,12 @@ class _MyDialPadWidget extends State<DialPadWidget>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          elevation: 0,
+          elevation: 3,
+          centerTitle: true,
           title: Text(
-              "Ujja India Calling Technology Test",
+              "Júpiter Ramal",
             style: TextStyle(
-              fontSize: 15
+              fontSize: 25
             ),
           ),
           actions: <Widget>[
@@ -217,7 +219,7 @@ class _MyDialPadWidget extends State<DialPadWidget>
                               ),
                             ),
                             SizedBox(
-                              child: Text('Account'),
+                              child: Text('Conta'),
                               width: 64,
                             )
                           ],
@@ -233,7 +235,7 @@ class _MyDialPadWidget extends State<DialPadWidget>
                               color: Colors.black38,
                             ),
                             SizedBox(
-                              child: Text('About'),
+                              child: Text('Sobre'),
                               width: 64,
                             )
                           ],
@@ -243,35 +245,37 @@ class _MyDialPadWidget extends State<DialPadWidget>
                     ]),
           ],
         ),
-        body: Align(
-            alignment: Alignment(0, 0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Center(
-                        child: Text(
-                      'Status: ${EnumHelper.getName(helper.registerState.state)}',
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
+        body: SingleChildScrollView(
+          child: Align(
+              alignment: Alignment(0, 0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Center(
+                          child: Text(
+                        'Status: ${EnumHelper.getName(helper.registerState.state)}',
+                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                      )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Center(
+                          child: Text(
+                        'Received Message: ${receivedMsg}',
+                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                      )),
+                    ),
+                    Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _buildDialPad(),
                     )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Center(
-                        child: Text(
-                      'Received Message: ${receivedMsg}',
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
-                    )),
-                  ),
-                  Container(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: _buildDialPad(),
-                  )),
-                ])));
+                  ])),
+        ));
   }
 
   @override

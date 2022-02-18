@@ -41,10 +41,10 @@ class _ActionButtonState extends State<ActionButton> {
               onPressed: widget.onPressed,
               splashColor: widget.fillColor != null
                   ? widget.fillColor
-                  : (widget.checked ? Colors.white : Colors.blue),
+                  : (widget.checked ? Colors.white : Colors.orange),
               fillColor: widget.fillColor != null
                   ? widget.fillColor
-                  : (widget.checked ? Colors.blue : Colors.white),
+                  : (widget.checked ? Colors.orange : Colors.white),
               elevation: 10.0,
               shape: CircleBorder(),
               child: Padding(
@@ -55,14 +55,14 @@ class _ActionButtonState extends State<ActionButton> {
                         children: <Widget>[
                             Text('${widget.title}',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 30,
                                   color: widget.fillColor != null
                                       ? widget.fillColor
                                       : Colors.grey[500],
                                 )),
                             Text('${widget.subTitle}'.toUpperCase(),
                                 style: TextStyle(
-                                  fontSize: 8,
+                                  fontSize: 5,
                                   color: widget.fillColor != null
                                       ? widget.fillColor
                                       : Colors.grey[500],
@@ -70,10 +70,10 @@ class _ActionButtonState extends State<ActionButton> {
                           ])
                     : Icon(
                         widget.icon,
-                        size: 30.0,
+                        size: 40.0,
                         color: widget.fillColor != null
                             ? Colors.white
-                            : (widget.checked ? Colors.white : Colors.blue),
+                            : (widget.checked ? Colors.white : Colors.orange),
                       ),
               ),
             )),
