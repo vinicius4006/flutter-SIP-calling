@@ -9,8 +9,8 @@ Por enquanto apresenta os seguintes problemas:
 
  Se você já tem um sip funcionando é só registrar e você pode utilizar.
 
- <img src="images/shot1.png" width=500 alt="Tela1">
- <img src="images/shot2.png" width=500 alt="Tela2">
+ <img src="images/shot1.png" width=200 alt="Tela1">
+ <img src="images/shot2.png" width=200 alt="Tela2">
 
 ## Getting Started
 
