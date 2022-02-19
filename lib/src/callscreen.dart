@@ -15,8 +15,8 @@ class CallScreenWidget extends StatefulWidget {
 
 class _MyCallScreenWidget extends State<CallScreenWidget>
     implements SipUaHelperListener {
-  RTCVideoRenderer _localRenderer = RTCVideoRenderer();
-  RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
+  //RTCVideoRenderer _localRenderer = RTCVideoRenderer();
+ // RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   double _localVideoHeight;
   double _localVideoWidth;
   EdgeInsetsGeometry _localVideoMargin;
@@ -34,9 +34,9 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   CallStateEnum _state = CallStateEnum.NONE;
   SIPUAHelper get helper => widget._helper;
 
-  bool get voiceonly =>
-      (_localStream == null || _localStream.getVideoTracks().isEmpty) &&
-      (_remoteStream == null || _remoteStream.getVideoTracks().isEmpty);
+  bool get voiceonly => true;
+      //(_localStream == null || _localStream.getVideoTracks().isEmpty) &&
+      //(_remoteStream == null || _remoteStream.getVideoTracks().isEmpty);
 
   String get remote_identity => call.remote_identity;
 
@@ -47,7 +47,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   @override
   initState() {
     super.initState();
-    _initRenderers();
+    //_initRenderers();
     helper.addSipUaHelperListener(this);
     _startTimer();
   }
@@ -56,7 +56,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   deactivate() {
     super.deactivate();
     helper.removeSipUaHelperListener(this);
-    _disposeRenderers();
+    //_disposeRenderers();
   }
 
   void _startTimer() {
@@ -74,25 +74,25 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     });
   }
 
-  void _initRenderers() async {
-    if (_localRenderer != null) {
-      await _localRenderer.initialize();
-    }
-    if (_remoteRenderer != null) {
-      await _remoteRenderer.initialize();
-    }
-  }
+  // void _initRenderers() async {
+  //   if (_localRenderer != null) {
+  //     await _localRenderer.initialize();
+  //   }
+  //   if (_remoteRenderer != null) {
+  //     await _remoteRenderer.initialize();
+  //   }
+  // }
 
-  void _disposeRenderers() {
-    if (_localRenderer != null) {
-      _localRenderer.dispose();
-      _localRenderer = null;
-    }
-    if (_remoteRenderer != null) {
-      _remoteRenderer.dispose();
-      _remoteRenderer = null;
-    }
-  }
+  // void _disposeRenderers() {
+  //   if (_localRenderer != null) {
+  //     _localRenderer.dispose();
+  //     _localRenderer = null;
+  //   }
+  //   if (_remoteRenderer != null) {
+  //     _remoteRenderer.dispose();
+  //     _remoteRenderer = null;
+  //   }
+  // }
 
   @override
   void callStateChanged(Call call, CallState callState) {
@@ -106,7 +106,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
 
     if (callState.state == CallStateEnum.MUTED) {
       if (callState.audio) _audioMuted = true;
-      if (callState.video) _videoMuted = true;
+      //if (callState.video) _videoMuted = true;
       this.setState(() {});
       return;
     }
@@ -123,9 +123,9 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     }
 
     switch (callState.state) {
-      case CallStateEnum.STREAM:
-        _handelStreams(callState);
-        break;
+      // case CallStateEnum.STREAM:
+      //   _handelStreams(callState);
+      //   break;
       case CallStateEnum.ENDED:
       case CallStateEnum.FAILED:
         _backToDialPad();
@@ -158,41 +158,42 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     });
   }
 
-  void _handelStreams(CallState event) async {
-    MediaStream stream = event.stream;
-    if (event.originator == 'local') {
-      if (_localRenderer != null) {
-        _localRenderer.srcObject = stream;
-      }
-      event.stream?.getAudioTracks()?.first?.enableSpeakerphone(false);
-      _localStream = stream;
-    }
-    if (event.originator == 'remote') {
-      if (_remoteRenderer != null) {
-        _remoteRenderer.srcObject = stream;
-      }
-      _remoteStream = stream;
-    }
+  // void _handelStreams(CallState event) async {
+  //   MediaStream stream = event.stream;
+  //   if (event.originator == 'local') {
+  //     if (_localRenderer != null) {
+  //       _localRenderer.srcObject = stream;
+  //     }
+  //     event.stream?.getAudioTracks()?.first?.enableSpeakerphone(false);
+  //     _localStream = stream;
+  //   }
+  //   if (event.originator == 'remote') {
+  //     if (_remoteRenderer != null) {
+  //       _remoteRenderer.srcObject = stream;
+  //     }
+  //     _remoteStream = stream;
+  //   }
 
-    this.setState(() {
-      _resizeLocalVideo();
-    });
-  }
+  //   this.setState(() {
+  //     _resizeLocalVideo();
+  //   });
+  // }
 
-  void _resizeLocalVideo() {
-    _localVideoMargin = _remoteStream != null
-        ? EdgeInsets.only(top: 15, right: 15)
-        : EdgeInsets.all(0);
-    _localVideoWidth = _remoteStream != null
-        ? MediaQuery.of(context).size.width / 4
-        : MediaQuery.of(context).size.width;
-    _localVideoHeight = _remoteStream != null
-        ? MediaQuery.of(context).size.height / 4
-        : MediaQuery.of(context).size.height;
-  }
+  // void _resizeLocalVideo() {
+  //   _localVideoMargin = _remoteStream != null
+  //       ? EdgeInsets.only(top: 15, right: 15)
+  //       : EdgeInsets.all(0);
+  //   _localVideoWidth = _remoteStream != null
+  //       ? MediaQuery.of(context).size.width / 4
+  //       : MediaQuery.of(context).size.width;
+  //   _localVideoHeight = _remoteStream != null
+  //       ? MediaQuery.of(context).size.height / 4
+  //       : MediaQuery.of(context).size.height;
+  // }
 
   void _handleHangup() {
     call.hangup();
+    
     _timer.cancel();
   }
 
@@ -200,11 +201,11 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     call.answer(helper.buildCallOptions());
   }
 
-  void _switchCamera() {
-    if (_localStream != null) {
-      _localStream.getVideoTracks()[0].switchCamera();
-    }
-  }
+  // void _switchCamera() {
+  //   if (_localStream != null) {
+  //     _localStream.getVideoTracks()[0].switchCamera();
+  //   }
+  // }
 
   void _muteAudio() {
     if (_audioMuted) {
@@ -214,13 +215,13 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     }
   }
 
-  void _muteVideo() {
-    if (_videoMuted) {
-      call.unmute(false, true);
-    } else {
-      call.mute(false, true);
-    }
-  }
+  // void _muteVideo() {
+  //   if (_videoMuted) {
+  //     call.unmute(false, true);
+  //   } else {
+  //     call.mute(false, true);
+  //   }
+  // }
 
   void _handleHold() {
     if (_hold) {
@@ -380,7 +381,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
             advanceActions.add(ActionButton(
               title: "switch camera",
               icon: Icons.switch_video,
-              onPressed: () => _switchCamera(),
+              //onPressed: () => _switchCamera(),
             ));
           }
 
@@ -396,7 +397,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
               title: _videoMuted ? "camera on" : 'camera off',
               icon: _videoMuted ? Icons.videocam : Icons.videocam_off,
               checked: _videoMuted,
-              onPressed: () => _muteVideo(),
+              //onPressed: () => _muteVideo(),
             ));
           }
 
@@ -465,25 +466,25 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   Widget _buildContent() {
     var stackWidgets = <Widget>[];
 
-    if (!voiceonly && _remoteStream != null) {
-      stackWidgets.add(Center(
-        child: RTCVideoView(_remoteRenderer),
-      ));
-    }
+    // if (!voiceonly && _remoteStream != null) {
+    //   stackWidgets.add(Center(
+    //     child: RTCVideoView(_remoteRenderer),
+    //   ));
+    // }
 
-    if (!voiceonly && _localStream != null) {
-      stackWidgets.add(Container(
-        child: AnimatedContainer(
-          child: RTCVideoView(_localRenderer),
-          height: _localVideoHeight,
-          width: _localVideoWidth,
-          alignment: Alignment.topRight,
-          duration: Duration(milliseconds: 300),
-          margin: _localVideoMargin,
-        ),
-        alignment: Alignment.topRight,
-      ));
-    }
+    // if (!voiceonly && _localStream != null) {
+    //   stackWidgets.add(Container(
+    //     child: AnimatedContainer(
+    //       child: RTCVideoView(_localRenderer),
+    //       height: _localVideoHeight,
+    //       width: _localVideoWidth,
+    //       alignment: Alignment.topRight,
+    //       duration: Duration(milliseconds: 300),
+    //       margin: _localVideoMargin,
+    //     ),
+    //     alignment: Alignment.topRight,
+    //   ));
+    // }
 
     stackWidgets.addAll([
       Positioned(
