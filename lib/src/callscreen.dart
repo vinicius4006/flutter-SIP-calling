@@ -17,9 +17,9 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     implements SipUaHelperListener {
   //RTCVideoRenderer _localRenderer = RTCVideoRenderer();
  // RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
-  double _localVideoHeight;
-  double _localVideoWidth;
-  EdgeInsetsGeometry _localVideoMargin;
+  // double _localVideoHeight;
+  // double _localVideoWidth;
+  // EdgeInsetsGeometry _localVideoMargin;
   MediaStream _localStream;
   MediaStream _remoteStream;
 
@@ -58,6 +58,8 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     helper.removeSipUaHelperListener(this);
     //_disposeRenderers();
   }
+
+
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
@@ -123,9 +125,9 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     }
 
     switch (callState.state) {
-      // case CallStateEnum.STREAM:
-      //   _handelStreams(callState);
-      //   break;
+      case CallStateEnum.STREAM:
+       // _handelStreams(callState);
+        break;
       case CallStateEnum.ENDED:
       case CallStateEnum.FAILED:
         _backToDialPad();
@@ -191,10 +193,12 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   //       : MediaQuery.of(context).size.height;
   // }
 
+
   void _handleHangup() {
-    call.hangup();
     
-    _timer.cancel();
+     call.hangup();
+     _timer.cancel();
+    
   }
 
   void _handleAccept() {
