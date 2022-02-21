@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterWidget extends StatefulWidget {
   final SIPUAHelper _helper;
-  RegisterWidget(this._helper, {Key key}) : super(key: key);
+  RegisterWidget(this._helper, {Key? key}) : super(key: key);
   @override
   _MyRegisterWidget createState() => _MyRegisterWidget();
 }
@@ -20,8 +20,8 @@ class _MyRegisterWidget extends State<RegisterWidget>
     'Origin': ' https://tryit.jssip.net',
     'Host': 'tryit.jssip.net:10443'
   };
-  SharedPreferences _preferences;
-  RegistrationState _registerState;
+  SharedPreferences? _preferences;
+  RegistrationState? _registerState;
 
   SIPUAHelper get helper => widget._helper;
 
@@ -44,22 +44,22 @@ class _MyRegisterWidget extends State<RegisterWidget>
     _preferences = await SharedPreferences.getInstance();
     this.setState(() {
       _wsUriController.text =
-          _preferences.getString('ws_uri') ?? 'wss://fs.jupiter.com.br:7443';//
+          _preferences!.getString('ws_uri') ?? 'ws://fs.jupiter.com.br:80';//
       _sipUriController.text =
-          _preferences.getString('sip_uri') ?? '${900}@fs.jupiter.com.br';//
+          _preferences!.getString('sip_uri') ?? '${900}@fs.jupiter.com.br';//
       _displayNameController.text =
-          _preferences.getString('display_name') ?? 'Júpiter Beta';//Flutter SIP UA
-      _passwordController.text = _preferences.getString('Jup900');//
-      _authorizationUserController.text = _preferences.getString('auth_user');
+          _preferences!.getString('display_name') ?? 'Júpiter Beta';//Flutter SIP UA
+      _passwordController.text = _preferences!.getString('password')!;//
+      _authorizationUserController.text = _preferences!.getString('auth_user')!;
     });
   }
 
   void _saveSettings() {
-    _preferences.setString('ws_uri', _wsUriController.text);
-    _preferences.setString('sip_uri', _sipUriController.text);
-    _preferences.setString('display_name', _displayNameController.text);
-    _preferences.setString('password', _passwordController.text);
-    _preferences.setString('auth_user', _authorizationUserController.text);
+    _preferences?.setString('ws_uri', _wsUriController.text);
+    _preferences?.setString('sip_uri', _sipUriController.text);
+    _preferences?.setString('display_name', _displayNameController.text);
+    _preferences?.setString('password', _passwordController.text);
+    _preferences?.setString('auth_user', _authorizationUserController.text);
   }
 
   @override
@@ -133,7 +133,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
                             const EdgeInsets.fromLTRB(48.0, 18.0, 48.0, 18.0),
                         child: Center(
                             child: Text(
-                          'Status: ${EnumHelper.getName(_registerState.state)}',
+                          'Status: ${EnumHelper.getName(_registerState!.state)}',
                           style: TextStyle(fontSize: 25, color: Colors.black54),
                         )),
                       ),
@@ -203,8 +203,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
                             border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black12)),
                             hintText:
-                                _authorizationUserController.text?.isEmpty ??
-                                        true
+                                _authorizationUserController.text.isEmpty
                                     ? '[Empty]'
                                     : null,
                           ),
@@ -231,7 +230,7 @@ class _MyRegisterWidget extends State<RegisterWidget>
                             contentPadding: EdgeInsets.all(10.0),
                             border: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black12)),
-                            hintText: _passwordController.text?.isEmpty ?? true
+                            hintText: _passwordController.text.isEmpty
                                 ? '[Empty]'
                                 : null,
                           ),

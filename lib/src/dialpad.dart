@@ -6,19 +6,19 @@ import 'widgets/action_button.dart';
 
 class DialPadWidget extends StatefulWidget {
   final SIPUAHelper _helper;
-  DialPadWidget(this._helper, {Key key}) : super(key: key);
+  DialPadWidget(this._helper, {Key? key}) : super(key: key);
   @override
   _MyDialPadWidget createState() => _MyDialPadWidget();
 }
 
 class _MyDialPadWidget extends State<DialPadWidget>
     implements SipUaHelperListener {
-  String _dest;
+  String? _dest;
   SIPUAHelper get helper => widget._helper;
-  TextEditingController _textController;
-  SharedPreferences _preferences;
+  TextEditingController? _textController;
+  SharedPreferences? _preferences;
 
-  String receivedMsg;
+  String? receivedMsg;
 
   @override
   initState() {
@@ -30,9 +30,9 @@ class _MyDialPadWidget extends State<DialPadWidget>
 
   void _loadSettings() async {
     _preferences = await SharedPreferences.getInstance();
-    _dest = _preferences.getString('dest') ?? '';
+    _dest = _preferences!.getString('dest') ?? '';
     _textController = TextEditingController(text: _dest);
-    _textController.text = _dest;
+    _textController!.text = _dest!;
 
     this.setState(() {});
   }
@@ -41,9 +41,9 @@ class _MyDialPadWidget extends State<DialPadWidget>
     helper.addSipUaHelperListener(this);
   }
 
-  Widget _handleCall(BuildContext context, [bool voiceonly = false]) {
-    var dest = _textController.text;
-    if (dest == null || dest.isEmpty) {
+  Null _handleCall(BuildContext context, [bool voiceonly = false]) {
+    var dest = _textController!.text;
+    if (dest.isEmpty) {
       showDialog<Null>(
         context: context,
         barrierDismissible: false,
@@ -65,23 +65,23 @@ class _MyDialPadWidget extends State<DialPadWidget>
       return null;
     }
     helper.call(dest, voiceonly: voiceonly);
-    _preferences.setString('dest', dest);
+    _preferences!.setString('dest', dest);
     return null;
   }
 
   void _handleBackSpace([bool deleteAll = false]) {
-    var text = _textController.text;
+    var text = _textController!.text;
     if (text.isNotEmpty) {
       this.setState(() {
         text = deleteAll ? '' : text.substring(0, text.length - 1);
-        _textController.text = text;
+        _textController!.text = text;
       });
     }
   }
 
   void _handleNum(String number) {
     this.setState(() {
-      _textController.text += number;
+      _textController!.text += number;
     });
   }
 

@@ -7,7 +7,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'src/register.dart';
 import 'src/dialpad.dart';
 import 'src/callscreen.dart';
-import 'src/about.dart';
+import 'src/about.dart'; 
 
 void main() {
   if (WebRTC.platformIsDesktop) {
@@ -23,28 +23,26 @@ typedef PageContentBuilder = Widget Function(
 class MyApp extends StatelessWidget {
   final SIPUAHelper _helper = SIPUAHelper();
   Map<String, PageContentBuilder> routes = {
-    '/': ([SIPUAHelper helper, Object arguments]) => DialPadWidget(helper),
-    '/register': ([SIPUAHelper helper, Object arguments]) =>
-        RegisterWidget(helper),
-    '/callscreen': ([SIPUAHelper helper, Object arguments]) =>
-        CallScreenWidget(helper, arguments as Call),
-    '/about': ([SIPUAHelper helper, Object arguments]) => AboutWidget(),
+    '/': ([SIPUAHelper? helper, Object? arguments]) => DialPadWidget(helper!),
+    '/register': ([SIPUAHelper? helper, Object? arguments]) =>
+        RegisterWidget(helper!),
+    '/callscreen': ([SIPUAHelper? helper, Object? arguments]) =>
+        CallScreenWidget(helper!, arguments as Call),
+    '/about': ([SIPUAHelper? helper, Object? arguments]) => AboutWidget(),
   };
 
-  Route<dynamic> _onGenerateRoute(RouteSettings settings) {
-    final String name = settings.name;
-    final PageContentBuilder pageContentBuilder = routes[name];
-    if (pageContentBuilder != null) {
-      if (settings.arguments != null) {
-        final Route route = MaterialPageRoute<Widget>(
-            builder: (context) =>
-                pageContentBuilder(_helper, settings.arguments));
-        return route;
-      } else {
-        final Route route = MaterialPageRoute<Widget>(
-            builder: (context) => pageContentBuilder(_helper));
-        return route;
-      }
+  Route<dynamic>? _onGenerateRoute(RouteSettings settings) {
+    final String name = settings.name!;
+    final PageContentBuilder pageContentBuilder = routes[name]!;
+    if (settings.arguments != null) {
+      final Route route = MaterialPageRoute<Widget>(
+          builder: (context) =>
+              pageContentBuilder(_helper, settings.arguments!));
+      return route;
+    } else {
+      final Route route = MaterialPageRoute<Widget>(
+          builder: (context) => pageContentBuilder(_helper));
+      return route;
     }
     return null;
   }

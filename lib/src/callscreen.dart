@@ -8,7 +8,7 @@ import 'package:sip_ua/sip_ua.dart';
 class CallScreenWidget extends StatefulWidget {
   final SIPUAHelper _helper;
   final Call _call;
-  CallScreenWidget(this._helper, this._call, {Key key}) : super(key: key);
+  CallScreenWidget(this._helper, this._call, {Key? key}) : super(key: key);
   @override
   _MyCallScreenWidget createState() => _MyCallScreenWidget();
 }
@@ -20,17 +20,17 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   // double _localVideoHeight;
   // double _localVideoWidth;
   // EdgeInsetsGeometry _localVideoMargin;
-  MediaStream _localStream;
-  MediaStream _remoteStream;
-
+  MediaStream? _localStream;
+  MediaStream? _remoteStream;
+  bool hangUpOneTime = true;
   bool _showNumPad = false;
   String _timeLabel = '00:00';
-  Timer _timer;
+  Timer? _timer;
   bool _audioMuted = false;
   bool _videoMuted = false;
   bool _speakerOn = false;
   bool _hold = false;
-  String _holdOriginator;
+  String? _holdOriginator;
   CallStateEnum _state = CallStateEnum.NONE;
   SIPUAHelper get helper => widget._helper;
 
@@ -38,7 +38,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
       //(_localStream == null || _localStream.getVideoTracks().isEmpty) &&
       //(_remoteStream == null || _remoteStream.getVideoTracks().isEmpty);
 
-  String get remote_identity => call.remote_identity;
+  String get remote_identity => call.remote_identity!;
 
   String get direction => call.direction;
 
@@ -71,7 +71,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
               .join(':');
         });
       } else {
-        _timer.cancel();
+        _timer!.cancel();
       }
     });
   }
@@ -107,15 +107,15 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     }
 
     if (callState.state == CallStateEnum.MUTED) {
-      if (callState.audio) _audioMuted = true;
+      if (callState.audio!) _audioMuted = true;
       //if (callState.video) _videoMuted = true;
       this.setState(() {});
       return;
     }
 
     if (callState.state == CallStateEnum.UNMUTED) {
-      if (callState.audio) _audioMuted = false;
-      if (callState.video) _videoMuted = false;
+      if (callState.audio!) _audioMuted = false;
+      if (callState.video!) _videoMuted = false;
       this.setState(() {});
       return;
     }
@@ -154,7 +154,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   void registrationStateChanged(RegistrationState state) {}
 
   void _backToDialPad() {
-    _timer.cancel();
+    _timer!.cancel();
     Timer(Duration(seconds: 2), () {
       Navigator.of(context).pop();
     });
@@ -193,12 +193,17 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   //       : MediaQuery.of(context).size.height;
   // }
 
-
+  
   void _handleHangup() {
-    
+    if(hangUpOneTime){
      call.hangup();
-     _timer.cancel();
-    
+     _timer!.cancel();
+     setState(() {
+       hangUpOneTime = !hangUpOneTime;
+     });
+     return;
+     }
+     return;
   }
 
   void _handleAccept() {
@@ -235,7 +240,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
     }
   }
 
-  String _tansfer_target;
+  String? _tansfer_target;
   void _handleTransfer() {
     showDialog<Null>(
       context: context,
@@ -258,7 +263,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
             TextButton(
               child: Text('Ok'),
               onPressed: () {
-                call.refer(_tansfer_target);
+                call.refer(_tansfer_target!);
                 Navigator.of(context).pop();
               },
             ),
@@ -288,7 +293,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
   void _toggleSpeaker() {
     if (_localStream != null) {
       _speakerOn = !_speakerOn;
-      _localStream.getAudioTracks()[0].enableSpeakerphone(_speakerOn);
+      _localStream!.getAudioTracks()[0].enableSpeakerphone(_speakerOn);
     }
   }
 
@@ -506,7 +511,7 @@ class _MyCallScreenWidget extends State<CallScreenWidget>
                     child: Text(
                       (voiceonly ? 'VOICE CALL' : 'VIDEO CALL') +
                           (_hold
-                              ? ' PAUSED BY ${this._holdOriginator.toUpperCase()}'
+                              ? ' PAUSED BY ${this._holdOriginator!.toUpperCase()}'
                               : ''),
                       style: TextStyle(fontSize: 24, color: Colors.black54),
                     ))),
